@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  creationTimestamp: "2024-12-29T14:33:39Z"
+  finalizers:
+  - kubernetes.io/pv-protection
+  labels:
+    type: local
+  name: postgres-pv
+  resourceVersion: "6960"
+  uid: df985cb2-505c-4ef0-8673-b90b71a40255
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 10G
+  hostPath:
+    path: /Users/deww/database/postgres
+    type: ""
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  volumeMode: Filesystem
+status:
+  lastPhaseTransitionTime: "2024-12-29T14:33:39Z"
+  phase: Available
