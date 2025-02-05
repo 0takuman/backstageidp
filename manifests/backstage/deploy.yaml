@@ -17,6 +17,7 @@ spec:
       containers:
         - name: backstage
           image: backstage:1.0.0
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 7007
@@ -25,13 +26,6 @@ spec:
                 name: postgres-secrets
             - secretRef:
                 name: backstage-secrets
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
 # Uncomment if health checks are enabled in your app:
 # https://backstage.io/docs/plugins/observability#health-checks
 #          readinessProbe:
