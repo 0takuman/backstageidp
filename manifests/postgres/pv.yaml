@@ -1,25 +1,30 @@
+# kubernetes/postgres-storage.yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  creationTimestamp: "2024-12-29T14:33:39Z"
-  finalizers:
-  - kubernetes.io/pv-protection
+  name: postgres-storage
+  namespace: backstage
   labels:
     type: local
-  name: postgres-pv
-  resourceVersion: "6960"
-  uid: df985cb2-505c-4ef0-8673-b90b71a40255
 spec:
-  accessModes:
-  - ReadWriteOnce
-  capacity:
-    storage: 10G
-  hostPath:
-    path: /Users/deww/database/postgres
-    type: ""
-  persistentVolumeReclaimPolicy: Retain
   storageClassName: manual
-  volumeMode: Filesystem
-status:
-  lastPhaseTransitionTime: "2024-12-29T14:33:39Z"
-  phase: Available
+  capacity:
+    storage: 2G
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: '/Users/deww/database/postgres'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-storage-claim
+  namespace: backstage
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2G

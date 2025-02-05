@@ -1,26 +1,11 @@
+# kubernetes/postgres-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2024-12-29T14:33:39Z"
   name: postgres
-  namespace: postgres
-  resourceVersion: "6974"
-  uid: 87920a90-3d04-47c0-b925-b725274f8c21
+  namespace: backstage
 spec:
-  clusterIP: 10.98.65.41
-  clusterIPs:
-  - 10.98.65.41
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-  - port: 5432
-    protocol: TCP
-    targetPort: 5432
   selector:
     app: postgres
-  sessionAffinity: None
-  type: ClusterIP
-status:
-  loadBalancer: {}
+  ports:
+    - port: 5432
