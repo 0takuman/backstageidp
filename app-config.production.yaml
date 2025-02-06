@@ -28,9 +28,22 @@ backend:
       #   ca: # if you have a CA file and want to verify it you can uncomment this section
       #     $file: <file-path>/ca/server.crt
 
+# auth:
+#   providers:
+#     guest: {}
+
 auth:
+  environment: development
   providers:
-    guest: {}
+    microsoft:
+      development:
+        clientId: ${AZURE_CLIENT_ID}
+        clientSecret: ${AZURE_CLIENT_SECRET}
+        tenantId: ${AZURE_TENANT_ID}
+        domainHint: ${AZURE_TENANT_ID}
+        signIn:
+          resolvers:
+            - resolver: userIdMatchingUserEntityAnnotation
 
 catalog:
   # Overrides the default list locations from app-config.yaml as these contain example data.

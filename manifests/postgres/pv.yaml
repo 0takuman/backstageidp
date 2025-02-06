@@ -14,7 +14,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: '/Users/deww/database/postgres'
+    path: '/home/deww/database/postgres'
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
