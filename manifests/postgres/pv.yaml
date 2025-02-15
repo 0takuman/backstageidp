@@ -7,7 +7,6 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
   capacity:
     storage: 2G
   accessModes:
@@ -22,7 +21,6 @@ metadata:
   name: postgres-storage-claim
   namespace: backstage
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
