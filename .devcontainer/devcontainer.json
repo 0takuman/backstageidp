@@ -1,0 +1,27 @@
+{
+  "name": "backstageidp",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "backend",
+  "initializeCommand": "${localWorkspaceFolder}/.devcontainer/initialize-command.sh",
+  "postStartCommand": "${localWorkspaceFolder}/.devcontainer/post-start-command.sh",
+  "overrideCommand": true,
+  "workspaceFolder": "/home/${localEnv:USER}/mnt/ws",
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "eslint.validate": [
+      "javascript",
+      "typescript",
+      "typescriptreact",
+      "typescript.tsx"
+    ],
+    "eslint.workingDirectories": [{ "mode": "auto" }],
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+    "typescript.suggest.autoImports": true,
+    "typescript.suggest.completeFunctionCalls": true,
+    "typescript.suggest.includeAutomaticOptionalChainCompletions": true
+  }
+}

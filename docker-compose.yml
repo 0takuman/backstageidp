@@ -1,0 +1,32 @@
+version: '4'
+
+services:
+  postgres:
+    image: postgres:17.0-bookworm
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+  
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-minimal
+      args:
+        DockerUSER: ${CONTAINER_USER}
+        DockerUID: ${CONTAINER_UID}
+        DockerGID: ${CONTAINER_GID}   
+    environment:
+      POSTGRES_SERVICE_HOST: postgres
+      POSTGRES_SERVICE_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      ARM_CLIENT_ID: ${ARM_CLIENT_ID}
+      ARM_CLIENT_SECRET: ${ARM_CLIENT_SECRET}
+      ARM_TENANT_ID: ${ARM_TENANT_ID}
+      BACKSTAGE_SECRET: ${BACKSTAGE_SECRET}
+    ports:
+      - 7007:7007
+    depends_on:
+      - postgres
