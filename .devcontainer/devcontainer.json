@@ -3,8 +3,9 @@
   "dockerComposeFile": ["../docker-compose.yml"],
   "service": "backend",
   "initializeCommand": "${localWorkspaceFolder}/.devcontainer/initialize-command.sh",
-  "postStartCommand": "${localWorkspaceFolder}/.devcontainer/post-start-command.sh",
+  // "postStartCommand": ".devcontainer/post-command-start.sh",
   "overrideCommand": true,
+  // "workspaceFolder": "/Users/${localEnv:USER}/Repos/devcontainers/ws",
   "workspaceFolder": "/home/${localEnv:USER}/mnt/ws",
   "settings": {
     "terminal.integrated.defaultProfile.linux": "bash",
