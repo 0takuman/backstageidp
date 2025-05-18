@@ -22,10 +22,10 @@ create_directories() {
   echo "Creating directories mounted in docker for persistent data..."
   mkdir -p "${HOME}/.ssh/"
   mkdir -p "${HOME}/.gnupg/"
+  mkdir -p "${HOME}/.vscode-server/"
   mkdir -p "${HOME}/.${REPO_PROJECT}/commandhistory.d/"
   mkdir -p "${HOME}/.${REPO_PROJECT}/pre-commit-cache/"
   mkdir -p "${HOME}/.${REPO_PROJECT}/commandhistory.d/${REPO_NAME}/"
-
 }
 
 create_files() {
