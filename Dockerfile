@@ -1,8 +1,8 @@
-FROM node:20-bookworm-slim
+FROM node:22-bookworm-slim
 
-ARG DockerUSER
-ARG DockerUID=1000
-ARG DockerGID=1000
+ARG DockerUSER=deww
+ARG DockerUID=503
+ARG DockerGID=20
 
 # Set Python interpreter for `node-gyp` to use
 ENV PYTHON=/usr/bin/python3
@@ -18,8 +18,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   apt-get install -y --no-install-recommends python3 g++ build-essential git && \
   rm -rf /var/lib/apt/lists/*
 
-# Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
-# in which case you should also move better-sqlite3 to "devDependencies" in package.json.
+# Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image in which case you should also move better-sqlite3 to "devDependencies" in package.json.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
@@ -31,13 +30,28 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         sudo \
         procps \
         ruby \
-        fish \
-        tmux \
-        exa \
-        neovim \
         && \
         rm -rf /var/lib/apt/lists/*
 
+# Create the 'linuxbrew' user
+RUN useradd -m -s /bin/bash linuxbrew
+
+# Switch to 'linuxbrew' user
+USER linuxbrew
+
+# Install Homebrew
+RUN echo "Installing Homebrew..." && \
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/linuxbrew/.profile && \
+    echo "Adding Homebrew to PATH..." && \
+    export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+
+# Set the default shell to bash for the user
+SHELL ["/bin/bash", "-c"]
+
+RUN echo "Homebrew installation complete!"
+
+USER root
 
 # Create non-root user
 RUN if getent passwd $DockerUID > /dev/null; then userdel -r $(getent passwd $DockerUID | cut -d ':' -f 1); fi \
@@ -48,12 +62,15 @@ RUN if getent passwd $DockerUID > /dev/null; then userdel -r $(getent passwd $Do
     && chmod 0440 /etc/sudoers.d/$DockerUSER
 
 # From here on we use the least-privileged `node` user to run the backend.
-RUN chown -R ${DockerUID}:${DockerGID} /home/${DockerUSER}
-RUN chmod -R 777 /home/${DockerUSER}
+RUN mkdir -p /home/${DockerUSER}/mnt/ws && \
+  chown -R ${DockerUID}:${DockerGID} /home/${DockerUSER}/mnt/ws && \
+  chmod -R 777 /home/${DockerUSER}/mnt/ws
+
+# Add docker user to homebrew
+RUN chown -R $DockerUSER $(brew --prefix)/*
 
 USER ${DockerUSER}
-WORKDIR /home/${DockerUSER}
-
+WORKDIR /home/${DockerUSER}/mnt/ws
 
 
 # Copy files needed by Yarn

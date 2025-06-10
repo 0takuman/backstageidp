@@ -36,8 +36,8 @@ services:
       - ${HOME}/.ssh:/home/${USER}/.ssh:cached
       # netrc
       - ${HOME}/.netrc:/home/${USER}/.netrc:cached
-      - .:/home/${USER}/mnt/ws
-    working_dir: /home/${USER}/mnt/ws
+      - .:/home/${USER}/mnt/ws/
+    working_dir: /home/${USER}/mnt/ws/
     ports:
       - 7007:7007
     depends_on:

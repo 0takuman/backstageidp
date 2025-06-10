@@ -52,3 +52,15 @@ site
 
 # E2E test reports
 e2e-test-report/
+
+# Devpod things
+.cache
+.config
+.vscode-server
+dotfiles
+mnt
+.netrc
+.tmux.conf
+.bash_history
+.gitconfig
+.docker
